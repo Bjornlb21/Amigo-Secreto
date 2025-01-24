@@ -15,4 +15,4 @@ https://github.com/user-attachments/assets/ed06c429-f7c1-4d4d-ac6e-779e84020699
 
 <p>Para poder utilizar esta App</p>
 
-`` Link: ``
+- Link: https://bjornlb21.github.io/Amigo-Secreto/
