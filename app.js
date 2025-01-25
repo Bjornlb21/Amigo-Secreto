@@ -6,7 +6,6 @@ function agregarAmigo() {
   validarEntradaUsuario();
   limpiarInput();
   recorrerListaAmigos();
-  //   limpiarListaSorteado();
 }
 
 function limpiarInput() {
@@ -78,8 +77,5 @@ function sortearAmigo() {
     li.textContent = `Tu amigo secreto es ${amigo}`;
 
     document.getElementById('resultado').append(li);
-    // limpiarListaAmigos();
-
-    // amigos = [];
   }
 }
