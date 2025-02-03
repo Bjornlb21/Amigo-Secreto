@@ -125,16 +125,6 @@ function eliminarAmigoDeListaYArray(nombre) {
 }
 
 function sortearAmigo() {
-
-  // if (amigos.length < 3) {
-  //   notificationMessage.textContent = 'No puede haber menos de tres amigos antes de Sortear';
-  //   notificationMessage.style.display = 'block';
-
-  //   setTimeout(() => {
-  //     notificationMessage.style.display = 'none';
-  //   }, 3000);
-  // }
-
   // Si la lista de amigos no está vacía hacemos:
   if (amigos.length !== 0) {
     // Obtenemos el índice del amigo aleatorio según la longitud del array de amigos.
