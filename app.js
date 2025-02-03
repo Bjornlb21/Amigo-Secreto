@@ -4,6 +4,7 @@ let amigos = [];
 let notificationContainer = document.getElementById('notification');
 let notificationMessage = document.getElementById('notification__message');
 let buttonSortear = document.getElementById('sortear-amigo');
+let listaAmigos = document.getElementById('listaAmigos');
 
 function agregarAmigo() {
   validarEntradaUsuario();
@@ -16,8 +17,6 @@ function limpiarInput() {
 }
 
 function limpiarListaAmigos() {
-  let listaAmigos = document.getElementById('listaAmigos');
-
   while (listaAmigos.firstChild) {
     listaAmigos.removeChild(listaAmigos.firstChild);
   }
@@ -35,14 +34,15 @@ function resetearListas() {
   amigos = [];
 
   limpiarListaAmigos();
-
   limpiarListaSorteado();
   messageIfListIsEmpty();
+  actualizarBoton();
 }
 
 function validarEntradaUsuario() {
-  let nombre = document.getElementById('amigo').value;
   
+  let nombre = document.getElementById('amigo').value;
+
   let regex = /^[A-Za-záéíóúÁÉÍÓÚñÑ]+(\s[A-Za-záéíóúÁÉÍÓÚñÑ]+)*$/;
 
   if (nombre.trim() === '') {
@@ -51,8 +51,6 @@ function validarEntradaUsuario() {
 
     setTimeout(() => {
       notificationMessage.style.display = 'none';
-
-      console.log('click');
     }, 3000);
   } else if (!regex.test(nombre)) {
     notificationMessage.textContent = 'El nombre no puede contener números o varios espacios';
@@ -61,14 +59,14 @@ function validarEntradaUsuario() {
     setTimeout(() => {
       notificationMessage.style.display = 'none';
     }, 3000);
-  } else if (amigos.includes(nombre)) {
+  } else if (amigos.some((amigo) => nombre.toLowerCase() === amigo.toLowerCase())) {
     notificationMessage.textContent = 'El nombre ya está en la lista de amigos.';
     notificationMessage.style.display = 'block';
 
     setTimeout(() => {
       notificationMessage.style.display = 'none';
     }, 3000);
-  } else if(nombre.length < 3) {
+  } else if (nombre.length < 3) {
     notificationMessage.textContent = 'El nombre debe tener más de 3 caracteres';
     notificationMessage.style.display = 'block';
 
@@ -83,23 +81,22 @@ function validarEntradaUsuario() {
 }
 
 function messageIfListIsEmpty() {
-  let ul = document.getElementById('listaAmigos');
-  ul.innerHTML = '';
+  
+  listaAmigos.innerHTML = '';
   let li = document.createElement('li');
 
   if (amigos.length === 0) {
     li.textContent = 'La lista de amigos está vacía actualmente, agregue más amigos.';
-    li.classList.add('amigo-item');
-    ul.append(li);
+    li.classList.add('empty-list');
+    listaAmigos.append(li);
   } else {
     li.remove();
   }
 }
 
 function recorrerListaAmigos() {
-  let ul = document.getElementById('listaAmigos');
 
-  ul.innerHTML = '';
+  listaAmigos.innerHTML = '';
 
   amigos.forEach(amigo => {
     let li = document.createElement('li');
@@ -108,13 +105,11 @@ function recorrerListaAmigos() {
 
     li.classList.add('amigo-item');
 
-    ul.append(li);
+    listaAmigos.append(li);
   });
 }
 
 function eliminarAmigoDeListaYArray(nombre) {
-  let listaAmigos = document.getElementById('listaAmigos');
-
   let index = amigos.indexOf(nombre);
 
   if (index !== -1) {
@@ -130,6 +125,16 @@ function eliminarAmigoDeListaYArray(nombre) {
 }
 
 function sortearAmigo() {
+
+  // if (amigos.length < 3) {
+  //   notificationMessage.textContent = 'No puede haber menos de tres amigos antes de Sortear';
+  //   notificationMessage.style.display = 'block';
+
+  //   setTimeout(() => {
+  //     notificationMessage.style.display = 'none';
+  //   }, 3000);
+  // }
+
   // Si la lista de amigos no está vacía hacemos:
   if (amigos.length !== 0) {
     // Obtenemos el índice del amigo aleatorio según la longitud del array de amigos.
@@ -156,28 +161,23 @@ function sortearAmigo() {
     }, 5000);
     actualizarBoton();
   } else {
-    // Si la lista está vacía hacemos:
-    // notificationMessage.textContent = 'No hay amigos en la lista para sortear.';
-    // notificationMessage.style.display = 'block';
     actualizarBoton();
-
-    // setTimeout(() => {
-    //   notificationMessage.style.display = 'none';
-    // }, 2000);
   }
-
-  // eliminarAmigoDelArray(amigo);
 }
 
 function actualizarBoton() {
-  if (amigos.length === 0) {
-    messageIfListIsEmpty();
+  if (amigos.length < 3) {
     buttonSortear.disabled = true;
     buttonSortear.classList.remove('button-draw');
     buttonSortear.classList.add('button-draw-disabled');
+    notificationMessage.textContent = 'No puede haber menos de tres amigos antes de Sortear';
+    notificationMessage.style.display = 'block';
+      
   } else {
     buttonSortear.disabled = false;
+    buttonSortear.classList.remove('button-draw-disabled');
     buttonSortear.classList.add('button-draw');
+    notificationMessage.style.display = 'none';
   }
 }
 
