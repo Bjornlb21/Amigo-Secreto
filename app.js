@@ -1,10 +1,15 @@
-// El principal objetivo de este desafío es fortalecer tus habilidades en lógica de programación. Aquí deberás desarrollar la lógica para resolver el problema.
-
 let amigos = [];
 let notificationContainer = document.getElementById('notification');
 let notificationMessage = document.getElementById('notification__message');
+let inputAdd = document.getElementById('amigo');
 let buttonSortear = document.getElementById('sortear-amigo');
 let listaAmigos = document.getElementById('listaAmigos');
+
+inputAdd.addEventListener('keypress', function(e){
+  if (e.key === 'Enter') {
+    agregarAmigo();
+  }
+})
 
 function agregarAmigo() {
   validarEntradaUsuario();
@@ -24,7 +29,7 @@ function limpiarListaAmigos() {
 
 function limpiarListaSorteado() {
   let listaSorteado = document.getElementById('resultado');
-
+  
   while (listaSorteado.firstChild) {
     listaSorteado.removeChild(listaSorteado.firstChild);
   }
@@ -32,7 +37,6 @@ function limpiarListaSorteado() {
 
 function resetearListas() {
   amigos = [];
-
   limpiarListaAmigos();
   limpiarListaSorteado();
   messageIfListIsEmpty();
@@ -45,39 +49,39 @@ function validarEntradaUsuario() {
 
   let regex = /^[A-Za-záéíóúÁÉÍÓÚñÑ]+(\s[A-Za-záéíóúÁÉÍÓÚñÑ]+)*$/;
 
+  let errorMessage = '';
+
   if (nombre.trim() === '') {
-    notificationMessage.textContent = 'El campo no puede estar vacío';
-    notificationMessage.style.display = 'block';
+    errorMessage = 'El campo no puede estar vacío';
 
-    setTimeout(() => {
-      notificationMessage.style.display = 'none';
-    }, 3000);
+    hideNotification()
   } else if (!regex.test(nombre)) {
-    notificationMessage.textContent = 'El nombre no puede contener números o varios espacios';
-    notificationMessage.style.display = 'block';
+    errorMessage = 'El nombre no puede contener números o varios espacios';
 
-    setTimeout(() => {
-      notificationMessage.style.display = 'none';
-    }, 3000);
+    hideNotification()
   } else if (amigos.some((amigo) => nombre.toLowerCase() === amigo.toLowerCase())) {
-    notificationMessage.textContent = 'El nombre ya está en la lista de amigos.';
-    notificationMessage.style.display = 'block';
+    errorMessage = 'El nombre ya está en la lista de amigos.';
 
-    setTimeout(() => {
-      notificationMessage.style.display = 'none';
-    }, 3000);
+    hideNotification()
   } else if (nombre.length < 3) {
-    notificationMessage.textContent = 'El nombre debe tener más de 3 caracteres';
-    notificationMessage.style.display = 'block';
+    errorMessage = 'El nombre debe tener más de 3 caracteres';
 
-    setTimeout(() => {
-      notificationMessage.style.display = 'none';
-    }, 3000);
+    hideNotification()
   } else {
     amigos.push(nombre);
     actualizarBoton();
-    console.log(amigos);
+    return;
   }
+
+  notificationMessage.textContent = errorMessage;
+  notificationMessage.style.display = 'block';
+  hideNotification();
+  messageIfListIsEmpty();
+
+}
+
+function hideNotification(){
+  return setTimeout(() => {notificationMessage.style.display = 'none';}, 3000);
 }
 
 function messageIfListIsEmpty() {
@@ -116,42 +120,36 @@ function eliminarAmigoDeListaYArray(nombre) {
     amigos.splice(index, 1);
   }
 
-  let li = Array.from(listaAmigos.getElementsByTagName('li')).find(item => item.textContent === nombre);
+  let li = Array.from(listaAmigos.getElementsByTagName('li')).find((item) => item.textContent === nombre);
 
   if (li) {
     li.remove();
   }
-  console.log('Amigo eliminado de la lista ' + nombre);
 }
 
 function sortearAmigo() {
-  // Si la lista de amigos no está vacía hacemos:
+
   if (amigos.length !== 0) {
-    // Obtenemos el índice del amigo aleatorio según la longitud del array de amigos.
+
     let amigoAleatorio = Math.floor(Math.random() * amigos.length);
 
-    // Según el índice aleatorio que obtengamos, lo buscamos dentro del array y lo asignamos a una variable.
     let amigo = amigos[amigoAleatorio];
 
-    // Creamos un elemento <li>
     let li = document.createElement('li');
 
-    // Dentro del <li> asignamos un mensaje junto con quién es el amigo secreto.
     li.textContent = `Tu amigo secreto es ${amigo}`;
 
-    // Dentro de la lista de sorteo <ul> metemos el <li> con el mensaje de quién es el amigo sorteado.
     document.getElementById('resultado').append(li);
 
-    // Una vez mostrado el amigo sorteado, llamamos a una función que elimina el nombre tanto del Array de amigos como de la Lista de Amigos <a>
     eliminarAmigoDeListaYArray(amigo);
 
-    // Con el método setTimeout() eliminamos la etiqueta <li> que creamos para mostrar el mensaje del amigo sorteado, con una duración de 2 segundos.
     setTimeout(() => {
       li.remove();
     }, 5000);
     actualizarBoton();
   } else {
     actualizarBoton();
+    return;
   }
 }
 
