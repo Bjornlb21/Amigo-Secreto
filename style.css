@@ -17,8 +17,7 @@
 
 body {
   height: 100vh;
-  /* background-color: var(--color-primary); */
-  background-image: url('./assets/background1.png');
+  background-image: url('./assets/background-nigth-dos.png');
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -45,16 +44,17 @@ body {
 .slime-container {
   margin-left: 50px;
   position: relative;
-  width: 200px; /* Ajusta según el tamaño del Slime */
-  height: auto; /* Asegura que el contenedor ajuste al tamaño de la imagen */
+  width: 200px;
+  height: auto;
 }
 
 .slime {
-  width: 100%; /* Asegura que la imagen llene el contenedor */
+  width: 100%;
   position: relative;
-  z-index: 2; /* Asegura que el Slime está encima de la marca */
+  z-index: 2;
   animation: jump 1.7s infinite;
   transform: rotate(-19deg);
+  filter: drop-shadow(0 0 25px rgb(0, 183, 255));
 }
 
 @keyframes jump {
@@ -68,52 +68,11 @@ body {
   }
 }
 
-/* .slime-mark {
-  position: absolute;
-  bottom: 15px;
-  left: 18%;
-  transform: translateX(-50%);
-  width: 130px;
-  height: 10px;
-  background-color: #00ffbf;
-  opacity: 0;
-  animation: mark 1.85s infinite;
-  border-radius: 50%;
-  transform-origin: center bottom;
-  z-index: 1;
-}
-
-@keyframes mark {
-  0%,
-  45% {
-    opacity: 0;
-    transform: scaleX(0.1);
-  }
-  46% {
-    opacity: 1;
-    transform: scaleX(0.1);
-  }
-  50% {
-    transform: scaleX(1);
-  }
-  55% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 0;
-    transform: scaleX(1.5);
-  }
-} */
-
 /* Sección de entrada */
 .input-section {
   flex: 60%;
-  background: linear-gradient(
-    180deg,
-    rgba(49, 161, 219, 0.5) 45%, /* Azul con opacidad */
-    rgba(97, 162, 4, 0.5) 99%    /* Verde con opacidad */
-  );
-  /* opacity: 0.8; */
+  background: linear-gradient(180deg,rgba(5, 105, 200, 0.5) 45%,rgba(57, 111, 81, 0.5) 99%);
+  box-shadow: 0px 5px 10px 0px rgba(0, 255, 255, 0.7);
   border: 1px solid #000;
   border-radius: 64px 64px 0 0;
   display: flex;
@@ -132,14 +91,14 @@ body {
   font-family: 'Merriweather', serif;
   font-weight: 900;
   font-style: italic;
-  color: #333333;
+  color: #f8a5c2;
 }
 
 .section-title {
   font-family: 'Inter', serif;
   font-size: 36px;
   font-weight: 700;
-  color: #032f30;
+  color: #ffd700;
   margin: 10px 0;
   text-align: center;
 }
@@ -156,9 +115,24 @@ body {
 .input-name {
   width: 100%;
   padding: 10px;
-  border: 2px solid #000;
+  border: 2px solid #0eb3ff;
   border-radius: 25px 0 0 25px;
+  background-color: #045a81;
   font-size: 16px;
+}
+
+.input-name::placeholder {
+  color: #0eb3ff;
+}
+
+.input-name:focus {
+  border: 2px solid #3e196d;
+  outline: none;
+  color: #0eb3ff;
+}
+
+.input-name:not(:focus):not(:placeholder-shown) {
+  color: #0eb3ff;
 }
 
 .button-container {
@@ -192,13 +166,16 @@ button {
 }
 
 .button-add {
-  background-color: var(--color-tertiary);
-  color: var(--color-text);
+  background-color: #045a81;
+  color: #0eb3ff;
+  border: 2px solid #0eb3ff;
   border-radius: 0 25px 25px 0;
 }
 
 .button-add:hover {
-  background-color: #a1a1a1;
+  background-color: #067fb8;
+  border: 2px solid #3e196d;
+  color: #02364e;
 }
 
 /* Listas */
@@ -218,11 +195,9 @@ ul {
   margin: 10px 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  /* grid-auto-rows: auto; */
   gap: 10px;
   max-width: 485px;
   justify-content: center;
-  /* grid-auto-flow: dense; */
 }
 
 .amigo-item {
@@ -256,7 +231,6 @@ ul {
   text-align: center;
   margin-top: 5px;
   margin-left: 30px;
-  /* text-wrap-style: balance; */
 }
 
 .result-list li {
@@ -278,9 +252,10 @@ ul {
   width: 65%;
   padding: 10px 10px;
   color: var(--color-white);
-  background-color: gray;
+  background-color: #333333;
   font-size: 16px;
   margin-top: 15px;
+  cursor: not-allowed;
 }
 
 .button-draw-disabled img {
@@ -308,10 +283,6 @@ ul {
 
 .button-draw:active:hover {
   background-color: #82598a;
-}
-
-.button-draw-disabled:hover {
-  background-color: #333333;
 }
 
 /* Notificación */
