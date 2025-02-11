@@ -5,11 +5,11 @@ let inputAdd = document.getElementById('amigo');
 let buttonSortear = document.getElementById('sortear-amigo');
 let listaAmigos = document.getElementById('listaAmigos');
 
-inputAdd.addEventListener('keypress', function(e){
+inputAdd.addEventListener('keypress', function (e) {
   if (e.key === 'Enter') {
     agregarAmigo();
   }
-})
+});
 
 function agregarAmigo() {
   validarEntradaUsuario();
@@ -29,7 +29,7 @@ function limpiarListaAmigos() {
 
 function limpiarListaSorteado() {
   let listaSorteado = document.getElementById('resultado');
-  
+
   while (listaSorteado.firstChild) {
     listaSorteado.removeChild(listaSorteado.firstChild);
   }
@@ -44,7 +44,6 @@ function resetearListas() {
 }
 
 function validarEntradaUsuario() {
-  
   let nombre = document.getElementById('amigo').value;
 
   let regex = /^[A-Za-záéíóúÁÉÍÓÚñÑ]+(\s[A-Za-záéíóúÁÉÍÓÚñÑ]+)*$/;
@@ -54,19 +53,19 @@ function validarEntradaUsuario() {
   if (nombre.trim() === '') {
     errorMessage = 'El campo no puede estar vacío';
 
-    hideNotification()
+    hideNotification();
   } else if (!regex.test(nombre)) {
     errorMessage = 'El nombre no puede contener números o varios espacios';
 
-    hideNotification()
-  } else if (amigos.some((amigo) => nombre.toLowerCase() === amigo.toLowerCase())) {
+    hideNotification();
+  } else if (amigos.some(amigo => nombre.toLowerCase() === amigo.toLowerCase())) {
     errorMessage = 'El nombre ya está en la lista de amigos.';
 
-    hideNotification()
+    hideNotification();
   } else if (nombre.length < 3) {
     errorMessage = 'El nombre debe tener más de 3 caracteres';
 
-    hideNotification()
+    hideNotification();
   } else {
     amigos.push(nombre);
     actualizarBoton();
@@ -77,15 +76,15 @@ function validarEntradaUsuario() {
   notificationMessage.style.display = 'block';
   hideNotification();
   messageIfListIsEmpty();
-
 }
 
-function hideNotification(){
-  return setTimeout(() => {notificationMessage.style.display = 'none';}, 3000);
+function hideNotification() {
+  return setTimeout(() => {
+    notificationMessage.style.display = 'none';
+  }, 3000);
 }
 
 function messageIfListIsEmpty() {
-  
   listaAmigos.innerHTML = '';
   let li = document.createElement('li');
 
@@ -99,18 +98,10 @@ function messageIfListIsEmpty() {
 }
 
 function recorrerListaAmigos() {
-
-  listaAmigos.innerHTML = '';
-
-  amigos.forEach(amigo => {
-    let li = document.createElement('li');
-
-    li.textContent = amigo;
-
-    li.classList.add('amigo-item');
-
-    listaAmigos.append(li);
-  });
+  
+  listaAmigos.innerHTML = amigos.map(amigo => `<li class="amigo-item" title="Clickea para eliminar el amigo de la lista">${amigo}</li>`).join('');
+  let listItems = listaAmigos.querySelectorAll('li');
+  deleteFriendOnClick(listItems);
 }
 
 function eliminarAmigoDeListaYArray(nombre) {
@@ -120,17 +111,33 @@ function eliminarAmigoDeListaYArray(nombre) {
     amigos.splice(index, 1);
   }
 
-  let li = Array.from(listaAmigos.getElementsByTagName('li')).find((item) => item.textContent === nombre);
+  let li = Array.from(listaAmigos.getElementsByTagName('li')).find(item => item.textContent === nombre);
 
   if (li) {
     li.remove();
   }
 }
 
+function deleteFriendOnClick(listItems) {
+
+  listItems.forEach(li => {
+    li.addEventListener('click', () => {
+      li.style.border = "1px solid #333333"
+      li.style.animation = "rubberband 1.5s alternate ease-out";
+      setTimeout(() => {
+        const index = amigos.indexOf(li.textContent);
+
+        if (index !== -1) {
+          amigos.splice(index, 1);
+          listaAmigos.removeChild(li);
+        }
+      },1500);
+    });
+  });
+}
+
 function sortearAmigo() {
-
   if (amigos.length !== 0) {
-
     let amigoAleatorio = Math.floor(Math.random() * amigos.length);
 
     let amigo = amigos[amigoAleatorio];
@@ -160,7 +167,6 @@ function actualizarBoton() {
     buttonSortear.classList.add('button-draw-disabled');
     notificationMessage.textContent = 'No puede haber menos de tres amigos antes de Sortear';
     notificationMessage.style.display = 'block';
-      
   } else {
     buttonSortear.disabled = false;
     buttonSortear.classList.remove('button-draw-disabled');
