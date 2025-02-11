@@ -212,6 +212,45 @@ ul {
   margin-right: 5px;
 }
 
+@keyframes rubberband {
+  0% {
+    transform: scaleX(1);
+    color: #ffd700;
+    background-color: #032f30;
+  }
+  40% {
+    transform: scaleX(1.12) scaleY(0.75);
+    color: #ffd700;
+    background-color: #043f3c; /* Fondo ligeramente más claro */
+  }
+  55% {
+    transform: scaleX(0.85) scaleY(1);
+    color: #ffd700;
+    background-color: #054b47; /* Otro tono de verde más suave */
+  }
+  65% {
+    transform: scaleX(1.09) scaleY(0.85);
+    color: #ffd700;
+    background-color: #065c58; /* Verde un poco más brillante */
+  }
+  75% {
+    transform: scaleX(0.9) scaleY(1);
+    color: #ffd700;
+    background-color: #076f6a; /* Verde más vibrante */
+  }
+  90% {
+    transform: scaleX(1.05) scaleY(0.95);
+    color: #ffd700;
+    background-color: #088080; /* Verde más claro y fresco */
+  }
+  100% {
+    transform: scaleX(1) scaleY(1);
+    color: #ffd700;
+    background-color: #032f30;
+  }
+}
+
+
 .amigo-item:last-child:nth-child(3n + 1) {
   grid-column: span 3;
   justify-self: center;
@@ -296,8 +335,6 @@ ul {
   font-weight: 600;
   border: 1px solid #333;
   display: none;
-  position: absolute;
-  top: 420px;
   padding: 10px;
   margin-top: 25px;
   max-width: 450px;
